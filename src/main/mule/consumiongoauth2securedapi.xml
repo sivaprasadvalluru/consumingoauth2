@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/oauth http://www.mulesoft.org/schema/mule/oauth/current/mule-oauth.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="932fe9da-fb78-4acc-98b8-b88023c79bfc" basePath="/api" >
+		<http:request-connection host="myrestaurantssapiimpl.us-e2.cloudhub.io" port="80" >
+			<http:authentication >
+				<oauth:client-credentials-grant-type clientId="0oaf7xuzs7Z8tayKp5d" clientSecret="0ZPuzOuEyehIOYEq69nkX5E1xEOi66QKgTyGGMfDDWCHe2XvRkeOE6hnD52BswkG" scopes="restaurantapiscope" tokenUrl="https://dev-32337983.okta.com/oauth2/ausf7xwxmwrWiu74i5d7/v1/token" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f09b20ce-b570-4e7d-9542-102c697b25ce" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="consumiongoauth2securedapiFlow" doc:id="fec97da5-bd29-4924-9dba-ffec7f49d4f8" >
+		<http:listener doc:name="Listener" doc:id="4915a8ef-bf8c-43a4-8bc4-83c73da3dc82" config-ref="HTTP_Listener_config" path="/restaurants"/>
+		<http:request method="GET" doc:name="Request" doc:id="e51fa045-adef-42dc-ab26-e03544f61522" config-ref="HTTP_Request_configuration" path="/restaurants/1"/>
+	</flow>
+</mule>
